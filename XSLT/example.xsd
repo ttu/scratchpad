@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <!-- definition of simple elements -->
+  <xs:element name="FirstName" type="xs:string"/>
+  <xs:element name="LastName" type="xs:string"/>
+  <xs:element name="Title" type="LanguageTranslation"/>
+  <xs:element name="Price" type="xs:decimal"/>
+  <xs:element name="Quantity" type="xs:positiveInteger"/>
+  <xs:element name="Description" type="xs:string"/>
+  <xs:element name="DictionaryID" type="xs:string"/>
+  <xs:element name="Text" type="xs:string"/>
+  <!-- definition of attributes -->
+  <xs:attribute name="ID" type="xs:string"/>
+  <xs:attribute name="type" type="xs:string"/>
+  <xs:attribute name="lan" type="Languages"/>
+  <xs:attribute name="ShowTitle" type="xs:string"/>
+  <xs:attribute name="DefaultLan" type="Languages"/>
+  
+  <!-- definition of complex elements -->
+  <xs:element name="Root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Users"/>
+        <xs:element ref="Items"/>
+        <xs:element ref="Translations"/>
+        <xs:element ref="Options"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Users">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="User"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="User">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="FirstName"/>
+        <xs:element ref="LastName"/>
+        <xs:element maxOccurs="2" ref="Title"/>
+      </xs:sequence>
+      <xs:attribute ref="ID" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Items">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Item"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Item">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="Price"/>
+        <xs:element ref="Quantity"/>
+        <xs:element minOccurs="0" ref="Description"/>
+      </xs:sequence>
+      <xs:attribute ref="ID" use="required"/>
+      <xs:attribute ref="type" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Translations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Translation"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Translation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="DictionaryID"/>
+        <xs:element ref="Text"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Options">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="Option"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Option">
+    <xs:complexType>
+      <xs:attribute ref="ShowTitle"/>
+      <xs:attribute ref="DefaultLan"/>
+    </xs:complexType>
+  </xs:element>
+  <!-- definition of types -->
+  <xs:complexType name="LanguageTranslation">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute ref="lan"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:simpleType name="Languages">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FI"/>
+      <xs:enumeration value="EN"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

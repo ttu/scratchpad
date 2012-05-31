@@ -1,0 +1,149 @@
+---------------------------------------------------------------------------------------------------------
+XSLT EXAMPLES
+---------------------------------------------------------------------------------------------------------
+<Root>
+	<Items>
+		<Item>
+			<ID>999</ID>
+		</Item>
+		<Item>
+			<ID>222</ID>
+		</Item>
+		<Item2>
+			<ID>666</ID>
+		</Item2>
+	</Items>
+	<DeliveryContent>
+		<FullContent>FullContent_VALUE</FullContent>
+	</DeliveryContent>
+	<Translations>
+		<Translation>
+			<DictionaryID>ID1</DictionaryID>
+			<Translation>Translation_ID1_VALUE</Translation>
+		<Translation>
+		<Translation>
+			<DictionaryID>ID2</DictionaryID>
+			<Translation>Translation_ID2_VALUE</Translation>
+		<Translation>
+	</Translations>
+	<Options>
+		<row EntityHideEmptyFields="True" />
+		<row EntityFieldID="ID1" MinValue="EntityFieldID1_VALUE"/>
+		<row EntityFieldID="ID2" MinValue="EntityFieldID2_VALUE"/>	
+		<row RepeatBenchmarkHeaders="1" />
+	</Options>
+</Root>
+---------------------------------------------------------------------------------------------------------
+//Root/Options/row/@EntityHideEmptyFields (return True)
+<Root>
+	<row EntityHideEmptyFields="True" />
+</Root>
+---------------------------------------------------------------------------------------------------------
+//Root/Translations/Translation[DictionaryID='CHECK']/Translation (return VALUE)
+
+<Root>
+	<Translations>
+		<Translation>
+			<DictionaryID>CHECK</DictionaryID>
+			<Translation>VALUE</Translation>
+		<Translation>
+		<Translation>
+			<DictionaryID>NO_CHECK</DictionaryID>
+			<Translation>VALUE2</Translation>
+		<Translation>
+	</Translations>
+</Root>
+---------------------------------------------------------------------------------------------------------
+//Root/DeliveryContent/FullContent (return VALUE)
+
+<Root>
+	<DeliveryContent>
+		<FullContent>VALUE</FullContent>
+	</DeliveryContent>
+</Root>
+---------------------------------------------------------------------------------------------------------
+count(//Root/Items/*) (result = 3)
+
+<Root>
+	<Items>
+		<Item></Item>
+		<Item></Item>
+		<Item2></Item2>
+	</Items>
+</Root>
+---------------------------------------------------------------------------------------------------------
+count(//Root/Items/Item) (result = 2)
+
+<Root>
+	<Items>
+		<Item></Item>
+		<Item></Item>
+		<Item2></Item2>
+	</Items>
+</Root>
+---------------------------------------------------------------------------------------------------------
+//Root/Options/row[@EntityFieldID = $entityFieldId]/@MinValue (return VALUE)
+
+<Root>
+	<Options>
+		<row EntityFieldID="CHECK" MinValue="VALUE"/>
+		<row EntityFieldID="NO_CHECK" MinValue="VALUE2"/>
+	</Options>
+</Root>
+---------------------------------------------------------------------------------------------------------
+<xsl:variable name="ValueToCheck">
+	<!-- Set something here -->
+</xsl:variable>
+ 
+<xsl:if test="$ValueToCheck != ''">
+ 	<!-- Do something if variable has value -->
+</xsl:if>
+---------------------------------------------------------------------------------------------------------
+<Items>
+	 <Item>
+		<ID>999</ID>
+	 </Item>
+	  <Item>
+		<ID>222</ID>
+	 </Item>
+<Items>
+ 
+<xsl:for-each select="//Items/Item">
+	<xsl:variable name="rowId">
+          <xsl:value-of select="position()" />
+    </xsl:variable>
+	
+	<xsl:value-of select="current()/ID" />
+</xsl:for-each>
+---------------------------------------------------------------------------------------------------------
+<xsl:choose>
+    <xsl:when test="//Root/Options/row/@EntityHideEmptyFields = 'True'">
+	</xsl:when>
+    <xsl:otherwise>
+	</xsl:otherwise>
+</xsl:choose>
+---------------------------------------------------------------------------------------------------------
+<xsl:if test="//Root/Options/row[@RepeatBenchmarkHeaders='1']">
+ 
+</xsl:if>
+---------------------------------------------------------------------------------------------------------
+<xsl:call-template name="SingleEntityFull">
+            <xsl:with-param name="viewMode" select="1" />
+</xsl:call-template>
+
+<xsl:template name="SingleEntityFull">
+	<xsl:param name="viewMode" />
+</xsl:template>
+---------------------------------------------------------------------------------------------------------
+<!-- With mode template can be defined -->
+<xsl:apply-templates select="$nodes/Field" mode="GetMetaFields" />
+
+<xsl:template match="Field" mode="GetNormalFields">
+</xsl:template>
+---------------------------------------------------------------------------------------------------------
+ <xsl:for-each select="//Root/Fields/Field[ItemPageID = $pageId]">
+ Select only Fields with ItemPageID pageId
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------

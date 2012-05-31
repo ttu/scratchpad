@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="example.xsl"?>
+<Root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="example.xsd">
+  <Users>
+    <User ID="1">
+      <FirstName>Tomi</FirstName>
+      <LastName>Tuhkanen</LastName>
+      <Title lan="FI">Koodiapina</Title>
+      <Title lan="EN">Code Monkey</Title>
+    </User>
+    <User ID="2">
+      <FirstName>James</FirstName>
+      <LastName>Britton</LastName>
+      <Title lan="FI">Arkkitehti</Title>
+      <Title lan="EN">Architect</Title>
+    </User>
+  </Users>
+  <Items>
+    <Item ID="999" type="1">
+      <Price>5.2</Price>
+      <Quantity>2</Quantity>
+      <Description>Item is very old</Description>
+    </Item>
+    <Item ID="3" type="1">
+      <Price>3.1</Price>
+      <Quantity>20</Quantity>
+    </Item>
+    <Item ID="666" type="2">
+      <Price>15</Price>
+      <Quantity>8</Quantity>
+      <Description>Item is ok</Description>
+    </Item>
+    <Item ID="222" type="3">
+      <Price>12</Price>
+      <Quantity>33</Quantity>
+      <Description>Item is weird</Description>
+    </Item>
+    <Item ID="88" type="2">
+      <Price>2.49</Price>
+      <Quantity>4</Quantity>
+      <Description>Random item</Description>
+    </Item>
+  </Items>
+  <Translations>
+    <Translation>
+      <DictionaryID>APPLY_TEMPLATE_ITEMS</DictionaryID>
+      <Text>Match all items automatically to correct template</Text>
+    </Translation>
+    <Translation>
+      <DictionaryID>PAGE_TITLE</DictionaryID>
+      <Text>This is title of the page</Text>
+    </Translation>
+  </Translations>
+  <Options DefaultLan="EN" ShowTitle="1"/>
+</Root>
