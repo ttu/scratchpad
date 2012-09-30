@@ -1,0 +1,59 @@
+<html>
+<head>
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'></script>
+    <script type='text/javascript'>
+
+        $(document).ready(function () {
+
+            /*
+            $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8666/MyService.svc/PostSampleMethod?callback=?',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: "{ data : test }",
+            success: function(msg) {
+            alert('Success ' + msg);
+            },
+            error: function(e){
+            alert('Error ' + e);
+            }
+            });
+            */
+
+        });
+
+        function SendName(name) {
+            $.getJSON('http://localhost:8666/MyService.svc/GetSampleMethod/inputStr/' + name + '?callback=?', null, function (data) {
+                alert(data);
+            });
+        }
+
+        function GetNumber() {
+            $.getJSON('http://localhost:8666/MyService.svc/GetNumber?callback=?', null, function (data) {
+                alert(data);
+            });
+        }
+
+        function GetList() {
+            $.getJSON('http://localhost:8666/MyService.svc/GetPersons?callback=?', null, function (data) {
+                var text = "";
+
+                $.each(data, function (i, item) {
+                    text += item.Name + ", " + item.Age + ":";
+                });
+
+                $("#personsjson").text(text);
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <input type="button" value="Name" onclick="SendName('inputtext')" /><br />
+    <input type="button" value="Number" onclick="GetNumber()" /><br />
+    <input type="button" value="Persons" onclick="GetList()" /><br />
+    <label id="personsjson">
+    </label>
+</body>
+</html>
