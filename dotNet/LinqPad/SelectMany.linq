@@ -1,7 +1,4 @@
-<Query Kind="Program">
-  <Reference>&lt;RuntimeDirectory&gt;\System.dll</Reference>
-  <Namespace>System.Threading.Tasks</Namespace>
-</Query>
+<Query Kind="Program" />
 
 class Person { public string Name; public int Age; };
 
@@ -32,23 +29,33 @@ void Main()
 	nameLists.Add(nameList2);
 	
 	// Shows 2 lists
-	nameLists.Dump();
+	nameLists.Dump("2 lists");
+	
+	// Combines inner lists to one
+	var all = nameLists.SelectMany(l => l);
+	all.Dump("2 lists as 1");
 	
 	int ageLimit = 50;
 	
-	// Select presons over X
+	// Select persons over X
+	var selected = nameLists.SelectMany(l => l).Where(x => x.Age > ageLimit);
+	selected.Dump("Persons over 50");
+	
+	// Select persons over X
 	var query = from a in nameLists
 			from b in a
 			where b.Age > ageLimit
 			select b.Name;
 
-	query.Dump();
+	query.Dump("Persons over 50");
 	
-	// Combines inner lists to one
-	var all = nameLists.SelectMany(l => l);
-	all.Dump();
+	// Combine Dictionary Value Lists
+	var dict = new Dictionary<int, List<double>>();
+	dict.Add(1, new List<double>(){ 1.1, 1.2, 1.3 });
+	dict.Add(2, new List<double>(){ 2.1, 2.2, 2.3 });
+	dict.Add(3, new List<double>(){ 3.1, 3.2, 3.3 });
 	
-	// Select persons over X
-	var selected = nameLists.SelectMany(l => l).Where(x => x.Age > 50);
-	selected.Dump();
+	dict.Dump("Whole dictionary");
+	
+	dict.Where(x => x.Key != 3).SelectMany(x => x.Value).Dump("Values of 1 and 2");
 }

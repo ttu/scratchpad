@@ -5,8 +5,6 @@ var items = csv.Split('\n');
 var grouped = items.GroupBy(a => a);
 var distinct = grouped.Select(g => new {Name = g.Key, Count = g.Count() });
 
-items.Dump();
-grouped.Dump();
-distinct.Dump();
-
-
+items.Dump("All items");
+grouped.Dump("Same items grouped");
+distinct.Dump("Distinct items");
