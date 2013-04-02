@@ -1,0 +1,42 @@
+.feature img {
+	margin-bottom: 15px;
+	max-width: 100%;
+	height: auto;
+	display: block; 
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+}
+
+.link img {
+	margin-bottom: 15px;
+	max-width: 35%;
+	height: auto;
+	display: block; 
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.logo h1:firstletter{
+	text-transform: uppercase;
+}
+
+.logo {
+	font-variant: small-caps;
+	font-family: 'Hoefler Text',Georgia,'Times New Roman',serif;
+}
+
+.teaminfo {
+	max-width: 60%;
+	float: left;
+}
+
+.teamimage {
+	max-width: 35%;	
+	float: left;
+	margin-left:5px;
+}
+
+.teamimage img {
+	width:85px;
+}
