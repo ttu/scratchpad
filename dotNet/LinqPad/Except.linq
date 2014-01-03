@@ -11,7 +11,7 @@ void Main()
 				new Person(){Name = "Jefferson", Age = 40},
 				new Person(){Name = "Ben", Age = 50},
 				new Person(){Name = "Jack", Age = 60},
-				new Person(){Name = "Daniel", Age = 70}
+				new Person(){Name = "Daniel", Age = 70},
 			};
 			
 	var old = new List<Person>(10)
@@ -28,9 +28,13 @@ void Main()
 	
 	var same = old.Select(s => s.Name).Except(notFound);
 	
+	var same2 = old.Select(s => s.Name).Where(name => found.Select(n => n.Name).Contains(name));
+	
 	newFound.Dump();
 	
 	notFound.Dump();
 	
 	same.Dump();
+	
+	same2.Dump();
 }
