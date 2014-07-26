@@ -1,0 +1,41 @@
+http://nbevans.wordpress.com/2013/02/13/targeting-mono-in-visual-studio-2012/
+
+4.5:
+cd C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5
+mkdir Profile
+cd Profile
+
+mklink /d Mono "C:\Program Files (x86)\Mono-3.2.3\lib\mono\4.5"
+
+cd Mono
+mkdir RedistList
+cd RedistList
+notepad FrameworkList.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<FileList ToolsVersion="4.0" RuntimeVersion="4.5" Name="Mono 3.2.3 Profile" Redist="Mono_3.2.3">
+</FileList>
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\SKUs\ 
+HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\SKUs\
+
+.NETFramework,Version=v4.5,Profile=Mono
+
+4.0:
+cd C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Profile
+
+mklink /d Mono "C:\Program Files (x86)\Mono-3.2.3\lib\mono\4.0"
+
+cd Mono
+mkdir RedistList
+cd RedistList
+notepad FrameworkList.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<FileList ToolsVersion="4.0" RuntimeVersion="4.0" Name="Mono 3.2.3 Profile" Redist="Mono_3.2.3">
+</FileList>
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework\v4.0.30319\SKUs\ 
+HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\SKUs\
+
+.NETFramework,Version=v4.0,Profile=Mono
