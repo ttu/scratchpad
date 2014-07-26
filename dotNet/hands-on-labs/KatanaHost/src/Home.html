@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@Model.title</title>
+    <script src="Scripts/jquery-2.0.3.min.js"></script>
+    <script src="Scripts/jquery.signalR-2.0.0.min.js"></script>
+    <script src="http://localhost:63996/signalr/hubs"></script>
+    <script type='text/javascript' src='Scripts/knockout-3.0.0.js'></script>
+    <script>
+        $(function () {
+            var viewModel;
+            $.getJSON('/api/bugs', function (data) {
+                var model = data;
+                viewModel = {
+                    backlog: ko.observableArray(
+                      model.filter(function (element) { return element.state === 'backlog'; })),
+                    working: ko.observableArray(
+                      model.filter(function (element) { return element.state === 'working'; })),
+                    done: ko.observableArray(
+                      model.filter(function (element) { return element.state === 'done'; })),
+                    changeState: function (bug, newState) {
+                        var self = this;            
+                        $.post('/api/bugs/' + newState, { '': bug.id }, function (data) {
+                            self.moveBug(data);
+                        });
+                    },
+                    moveBug: function (bug) {
+                        // Remove the item from one of the existing lists
+                        this['backlog'].remove(function (item) { return item.id == bug.id });
+                        this['working'].remove(function (item) { return item.id == bug.id });
+                        this['done'].remove(function (item) { return item.id == bug.id });
+
+                        // Add bug to correct list
+                        this[bug.state].push(bug);
+                    }
+                };
+                ko.applyBindings(viewModel);
+            });
+
+            $.connection.hub.url = "http://localhost:63996/signalr";
+            $.connection.hub.logging = true;
+
+            var bugsHub = $.connection.bugs;
+
+            bugsHub.client.moved = function (item) {
+                viewModel.moveBug(item);
+            };
+
+            $.connection.hub.start().done(function () {
+                console.log('hub connection open');
+            });
+        })
+    </script>
+
+</head>
+<body>
+    <header>
+        <h1>@Model.header</h1>
+    </header>
+    <section>
+        <h2>Backlog</h2>
+        <ul class="bugs" id="backlog" data-bind="foreach:backlog">
+            <li>
+                [<span data-bind="text: id"></span>] <span data-bind="text: title"></span>:
+                <span data-bind="text: description"></span>
+                <ul>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'working')">Move to working</a>
+                    </li>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'done')">Move to done</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>Working</h2>
+        <ul class="bugs" id="working" data-bind="foreach:working">
+            <li>
+                [<span data-bind="text: id"></span>] <span data-bind="text: title"></span>:
+                <span data-bind="text: description"></span>
+                <ul>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'backlog')">Move to backlog</a>
+                    </li>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'done')">Move to done</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>Done</h2>
+        <ul class="bugs" id="done" data-bind="foreach:done">
+            <li>
+                [<span data-bind="text: id"></span>] <span data-bind="text: title"></span>:
+                <span data-bind="text: description"></span>
+                <ul>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'working')">Move to working</a>
+                    </li>
+                    <li>
+                        <a href="#" data-bind="click: $root.changeState.bind($root, $data,'backlog')">Move to backlog</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+   
+</body>
+</html>
