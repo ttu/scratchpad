@@ -18,3 +18,9 @@ Learn F# through testing
 
 https://github.com/ChrisMarinos/FSharpKoans
 
+### React
+
+This tutorial covers the end-to-end process of creating a brand new ASP.NET MVC website and adding a React component in it.
+
+http://reactjs.net/getting-started/tutorial.html
+
