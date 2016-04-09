@@ -1,0 +1,89 @@
+ [TestMethod]
+        public void CountTest()
+        {
+            var a = Count(new List<int> { 1, 2, 3 });
+            var b = Count(new List<int> { 1, 2, 1, 1, 1, 1, 5 });
+            var c = Count(new List<int> { 1, 2, 1, 1, 1, 1, 5, 2 });
+            var d = Count(new List<int> { 1, 2, 7, 1, 1, 1, 5, 2 });
+        }
+		
+NEW:
+
+public int Count(List<int> input)
+        {
+            return input.Select(i => input.Skip(input.IndexOf(i)).Take(5))
+						.Max(b => b.Aggregate((k, u) => k * u));
+		}
+			
+public int Count(List<int> input)
+        {
+            return input.Select(item => input.Skip(input.IndexOf(item)).Take(5).ToList())
+                .Max(batch => batch.Aggregate((k, u) => k * u));
+        }
+
+OLD:
+
+public int Count(List<int> input)
+        {
+            int i = 0;
+            int batchSize = 5;
+            int maxVal = int.MinValue;
+
+            while (i < input.Count)
+            {
+                var vals = input.Skip(i++).Take(5);
+                var sum = vals.Aggregate((k, u) => k * u);
+
+                if (sum > maxVal)
+                    maxVal = sum;
+            }
+
+            return maxVal;
+        }
+
+public int Count(List<int> input)
+        {
+            int i = 0;
+            int batchSize = 5;
+
+            if (input.Count < batchSize)
+                return input.Aggregate((k, u) => k * u);
+
+            List<int> largest;
+            int maxVal = int.MinValue;
+
+            while (i < input.Count)
+            {
+                var vals = input.Skip(i++).Take(5);
+                var sum = vals.Aggregate((k, u) => k * u);
+
+                if (sum > maxVal)
+                {
+                    maxVal = sum;
+                    largest = vals.ToList();
+                }
+            }
+
+            return maxVal;
+        }
+
+JS:
+
+	
+
+    var max = calculateMax([1, 2, 3, 4, 1, 2, 3, 1]);
+     
+        function calculateMax(input) {
+            var sets = _.map(input, function (val, key) {
+                return _.toArray(input).slice(key, key + 5);
+            });
+     
+            var sums = _.map(sets, function (set) {
+                return _.reduce(set, function (memo, val) {
+                    return memo * val;
+                });
+            });
+     
+            return _.max(sums);
+        }
+
